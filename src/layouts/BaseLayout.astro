@@ -1,0 +1,16 @@
+---
+const { title = 'Mi website' } = Astro.props;
+---
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content="Portafolio · Project Manager / Desarrollador web" />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+  </head>
+  <body>
+    <slot />
+    <div class="footer container">© {new Date().getFullYear()} · Hecho con Astro · Bryan Julián Méndez Ambriz</div>
+  </body>
+</html>

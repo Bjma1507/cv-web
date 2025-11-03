@@ -1,0 +1,31 @@
+<section id="contacto" class="container contact">
+  <h3 class="section-title">Contacto</h3>
+  <p class="section-sub">¿Tienes un proyecto en mente? Conversemos.</p>
+
+  <form id="form-contacto" action="javascript:void(0)">
+    <div class="grid-2">
+      <input class="input" type="text" name="nombre" placeholder="Nombre" required />
+      <input class="input" type="email" name="email" placeholder="Correo" required />
+    </div>
+
+    <input class="input" type="text" name="asunto" placeholder="Asunto" />
+    <textarea name="mensaje" placeholder="Cuéntame sobre tu proyecto..." required></textarea>
+
+    <button class="submit" type="submit">Enviar mensaje</button>
+  </form>
+</section>
+
+<script is:inline>
+// @ts-nocheck
+
+const form = document.getElementById("form-contacto");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault(); // siempre primero
+
+  // Solo mostrar ventana emergente
+  alert("✅ Mensaje enviado correctamente");
+
+  form.reset(); // opcional: limpia el formulario
+});
+</script>
