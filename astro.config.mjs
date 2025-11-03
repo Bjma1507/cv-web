@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  server: { port: 4321 },
-  output: 'static'
+  site: 'https://bjma1507.github.io',
+  base: '/cv-web',   
 });
