@@ -1,16 +1,84 @@
 ---
-const { title = 'Mi website' } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Bryan Méndez · Project Manager & Dev',
+  description = 'Portafolio profesional de Bryan Julián Méndez Ambriz — Project Manager y Desarrollador Front-End especializado en soluciones web modernas.',
+} = Astro.props;
+
 import '../styles/global.css';
 ---
+
 <html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0b0f" />
+
     <title>{title}</title>
-    <meta name="description" content="Portafolio · Project Manager / Desarrollador web" />
+    <meta name="description" content={description} />
+
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content="/cv-web/img/profile-placeholder.jpg" />
+    <meta property="og:url"         content="https://bjma1507.github.io/cv-web/" />
+
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content="/cv-web/img/profile-placeholder.jpg" />
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧑‍💻</text></svg>" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   </head>
+
   <body>
-    <slot />
-    <div class="footer container">© {new Date().getFullYear()} · Hecho con Astro · Bryan Julián Méndez Ambriz</div>
+    <main>
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>© {new Date().getFullYear()} · Bryan Julián Méndez Ambriz</span>
+        <span class="footer-made">Hecho con <span class="footer-astro">Astro</span> 🚀</span>
+      </div>
+    </footer>
   </body>
 </html>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 16px 32px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .footer-astro {
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  @media (max-width: 600px) {
+    .footer-inner {
+      flex-direction: column;
+      text-align: center;
+      gap: 6px;
+    }
+  }
+</style>

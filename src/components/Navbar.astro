@@ -1,12 +1,296 @@
-<nav class="nav">
-  <div class="container nav-inner">
-    <a href="#" class="brand"><span class="dot"></span> Mi website</a>
+---
+---
+<header class="nav-wrapper" id="nav-wrapper">
+  <nav class="nav-pill" id="nav-pill">
+    <a href="#inicio" class="brand">
+      <span class="dot"></span>
+      Bryan Méndez
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#inicio"      class="nav-link" data-section="inicio">Inicio</a></li>
+      <li><a href="#about"       class="nav-link" data-section="about">Sobre mí</a></li>
+      <li><a href="#portafolio"  class="nav-link" data-section="portafolio">Portafolio</a></li>
+      <li><a href="#experiencia" class="nav-link" data-section="experiencia">Experiencia</a></li>
+      <li><a href="#contacto"    class="nav-link" data-section="contacto">Contacto</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul>
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#about">Sobre mi</a></li>
-      <li><a href="#portafolio">Portafolio</a></li>
-      <li><a href="#experiencia">Experiencia laboral</a></li>
-      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="#inicio"      class="mobile-link" data-section="inicio">Inicio</a></li>
+      <li><a href="#about"       class="mobile-link" data-section="about">Sobre mí</a></li>
+      <li><a href="#portafolio"  class="mobile-link" data-section="portafolio">Portafolio</a></li>
+      <li><a href="#experiencia" class="mobile-link" data-section="experiencia">Experiencia</a></li>
+      <li><a href="#contacto"    class="mobile-link" data-section="contacto">Contacto</a></li>
     </ul>
   </div>
-</nav>
+</header>
+
+<script>
+  const wrapper    = document.getElementById('nav-wrapper');
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const allLinks   = document.querySelectorAll('.nav-link, .mobile-link');
+
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY > lastScrollY && currentScrollY > 80) {
+          wrapper.classList.add('nav-hidden');
+        } else {
+          wrapper.classList.remove('nav-hidden');
+        }
+        lastScrollY = currentScrollY;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+  });
+
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  const sections = document.querySelectorAll('section[id]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        allLinks.forEach(link => {
+          link.classList.toggle('active', link.dataset.section === id);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(section => observer.observe(section));
+</script>
+
+<style>
+  .nav-wrapper {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity  0.35s ease;
+  }
+
+  .nav-wrapper.nav-hidden {
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: color-mix(in oklab, var(--bg) 75%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+    width: fit-content;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+    white-space: nowrap;
+    padding-right: 12px;
+    border-right: 1px solid var(--border);
+    text-decoration: none;
+  }
+
+  .brand:hover {
+    color: var(--green);
+    text-decoration: none;
+    transform: none;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: linear-gradient(45deg, var(--blue), var(--green));
+    box-shadow: 0 0 10px color-mix(in oklab, var(--green) 70%, transparent);
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .nav-link:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+    text-decoration: none;
+    transform: none;
+  }
+
+  .nav-link.active {
+    color: #fff;
+    background: rgba(43, 107, 228, 0.2);
+    border: 1px solid rgba(43, 107, 228, 0.35);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+  }
+
+  .hamburger:hover {
+    background: rgba(255,255,255,0.07);
+  }
+
+  .bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--muted);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+
+  .hamburger.active .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+    background: var(--green);
+  }
+  .hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger.active .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+    background: var(--green);
+  }
+
+  .mobile-menu {
+    display: none;
+    width: calc(100% - 32px);
+    max-width: 420px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: color-mix(in oklab, var(--bg) 90%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity    0.3s ease;
+    opacity: 0;
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mobile-link {
+    display: block;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .mobile-link:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.06);
+    text-decoration: none;
+    transform: none;
+  }
+
+  .mobile-link.active {
+    color: #fff;
+    background: rgba(43, 107, 228, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+
+    .hamburger {
+      display: flex;
+    }
+
+    .mobile-menu {
+      display: block;
+    }
+
+    .mobile-menu.open {
+      max-height: 400px;
+      opacity: 1;
+    }
+  }
+</style>
