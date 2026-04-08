@@ -1,71 +1,382 @@
 ---
-const base = import.meta.env.BASE_URL; // en GitHub Pages será '/cv-web/'
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL;
+
+const expEs = [
+  {
+    logo: `${base}img/admira.png`,
+    alt: 'ADMIRA',
+    company: 'ADMIRA',
+    role: 'Especialista de TI',
+    date: 'Agosto 2025 – Actualidad',
+    location: 'Guadalajara, MX',
+    tasks: [
+      'Gestión y resolución de tickets de clientes relacionados con la emisión de players.',
+      'Elaboración de reportes de seguimiento y conexión de proyectos asignados.',
+      'Actualización de contenidos en plataforma y apoyo en proyectos de programación.'
+    ]
+  },
+  {
+    logo: `${base}img/ganttd.png`,
+    alt: 'GANTTDU Consultoría',
+    company: 'GANTTDU Consultoría',
+    role: 'Project Manager',
+    date: 'Marzo 2024 – Junio 2025',
+    location: '',
+    tasks: [
+      'Priorización de tareas por urgencia, recursos y objetivos.',
+      'Monitoreo de desempeño y definición de planes de proyecto con plazos y calidad.',
+      'Reportes claros para stakeholders y equipos para garantizar colaboración.'
+    ]
+  },
+  {
+    logo: `${base}img/Hemac.png`,
+    alt: 'Grupo HEMAC',
+    company: 'Grupo HEMAC',
+    role: 'Analista de Operaciones',
+    date: 'Octubre 2022 – Marzo 2024',
+    location: '',
+    tasks: [
+      'Gestión y organización de evidencias documentales de procesos en proyectos activos.',
+      'Supervisión de protocolos y resguardo documental.',
+      'Elaboración de formatos y presentaciones técnicas para cierre de proyectos.'
+    ]
+  },
+  {
+    logo: `${base}img/lego.png`,
+    alt: 'LEGO',
+    company: 'LEGO',
+    role: 'Vendedor / Supervisor',
+    date: 'Enero 2022 – Octubre 2022',
+    location: '',
+    tasks: [
+      'Atención al cliente y ventas con enfoque en experiencia de usuario.',
+      'Organización y control de materiales para optimizar procesos.',
+      'Coordinación de equipos para eficiencia en el área.'
+    ]
+  }
+];
+
+const expEn = [
+  {
+    logo: `${base}img/admira.png`,
+    alt: 'ADMIRA',
+    company: 'ADMIRA',
+    role: 'IT Specialist',
+    date: 'August 2025 – Present',
+    location: 'Guadalajara, MX',
+    tasks: [
+      'Management and resolution of client tickets related to player broadcasting.',
+      'Preparation of tracking reports and connection of assigned projects.',
+      'Platform content updates and support in programming projects.'
+    ]
+  },
+  {
+    logo: `${base}img/ganttd.png`,
+    alt: 'GANTTDU Consulting',
+    company: 'GANTTDU Consulting',
+    role: 'Project Manager',
+    date: 'March 2024 – June 2025',
+    location: '',
+    tasks: [
+      'Task prioritization by urgency, resources, and objectives.',
+      'Performance monitoring and definition of project plans with deadlines and quality.',
+      'Clear reporting for stakeholders and teams to ensure collaboration.'
+    ]
+  },
+  {
+    logo: `${base}img/Hemac.png`,
+    alt: 'HEMAC Group',
+    company: 'HEMAC Group',
+    role: 'Operations Analyst',
+    date: 'October 2022 – March 2024',
+    location: '',
+    tasks: [
+      'Management and organization of documentary evidence for active projects.',
+      'Supervision of protocols and document safekeeping.',
+      'Preparation of formats and technical presentations for project closure.'
+    ]
+  },
+  {
+    logo: `${base}img/lego.png`,
+    alt: 'LEGO',
+    company: 'LEGO',
+    role: 'Salesperson / Supervisor',
+    date: 'January 2022 – October 2022',
+    location: '',
+    tasks: [
+      'Customer service and sales with a focus on user experience.',
+      'Organization and control of materials to optimize processes.',
+      'Team coordination for area efficiency.'
+    ]
+  }
+];
+
+const currentExp = lang === 'en' ? expEn : expEs;
 ---
 
-<section id="experiencia" class="container exp">
-  <h3 class="section-title">Experiencia laboral</h3>
-  <p class="section-sub">Empresas, periodos y actividades principales</p>
-  <div class="timeline">
+<section id="experiencia" class="experience-section">
+  <div class="container">
+    <div class="experience-header reveal">
+      <h2 class="experience-title">{t('exp.title')}</h2>
+      <p class="experience-subtitle">{t('exp.subtitle')}</p>
+    </div>
 
-    <article class="job card">
-      <div class="logo">
-        <img src={`${base}img/admira.png`} alt="admira">
-      </div>
-      <div>
-        <h4>ADMIRA · Especialista de TI</h4>
-        <div class="meta"><span>Agosto 2025 – Actualidad</span> · <span>Guadalajara, MX</span></div>
-        <ul>
-          <li>Gestión y resolución de tickets de clientes relacionados con la emisión de players.</li>
-          <li>Elaboración de reportes de seguimiento y conexión de proyectos asignados.</li>
-          <li>Actualización de contenidos en plataforma y apoyo en proyectos de programación.</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="job card">
-      <div class="logo">
-        <img src={`${base}img/ganttd.png`} alt="ganttdu">
-      </div>
-      <div>
-        <h4>GANTTDU Consultoría · Project Manager</h4>
-        <div class="meta"><span>Marzo 2024 – Junio 2025</span></div>
-        <ul>
-          <li>Priorización de tareas por urgencia, recursos y objetivos.</li>
-          <li>Monitoreo de desempeño y definición de planes de proyecto con plazos y calidad.</li>
-          <li>Reportes claros para stakeholders y equipos para garantizar colaboración.</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="job card">
-      <div class="logo">
-        <img src={`${base}img/Hemac.png`} alt="hemac">
-      </div>
-      <div>
-        <h4>Grupo HEMAC · Analista de Operaciones</h4>
-        <div class="meta"><span>Octubre 2022 – Marzo 2024</span></div>
-        <ul>
-          <li>Gestión y organización de evidencias documentales de procesos en proyectos activos.</li>
-          <li>Supervisión de protocolos y resguardo documental.</li>
-          <li>Elaboración de formatos y presentaciones técnicas para cierre de proyectos.</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="job card">
-      <div class="logo">
-        <img src={`${base}img/lego.png`} alt="lego">
-      </div>
-      <div>
-        <h4>LEGO · Vendedor / Supervisor</h4>
-        <div class="meta"><span>Enero 2022 – Octubre 2022</span></div>
-        <ul>
-          <li>Atención al cliente y ventas con enfoque en experiencia de usuario.</li>
-          <li>Organización y control de materiales para optimizar procesos.</li>
-          <li>Coordinación de equipos para eficiencia en el área.</li>
-        </ul>
-      </div>
-    </article>
-
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+      
+      {currentExp.map((job, i) => (
+        <article class="job-card reveal" style={`--delay: ${i * 0.15}s`}>
+          <div class="job-logo-wrapper">
+            <img src={job.logo} alt={job.alt} class="job-logo" loading="lazy" />
+          </div>
+          
+          <div class="job-content">
+            <div class="job-heading">
+              <h3 class="job-title">{job.company}</h3>
+              <h4 class="job-role">{job.role}</h4>
+            </div>
+            
+            <div class="job-meta">
+              <span class="meta-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                {job.date}
+              </span>
+              {job.location && (
+                <span class="meta-badge">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {job.location}
+                </span>
+              )}
+            </div>
+            
+            <ul class="job-tasks">
+              {job.tasks.map(task => (
+                <li>
+                  <span class="task-bullet"></span>
+                  {task}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
 </section>
+
+<script>
+  const reveals = document.querySelectorAll('#experiencia .reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target as HTMLElement;
+        const delay = el.style.getPropertyValue('--delay') || '0s';
+        el.style.transitionDelay = delay;
+        el.classList.add('revealed');
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+<style>
+  .experience-section {
+    padding: 80px 16px;
+  }
+
+  .experience-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .experience-title {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    margin: 0 0 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .experience-subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0;
+  }
+
+  .timeline-container {
+    position: relative;
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .timeline-line {
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 71px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--blue), var(--green), transparent);
+    border-radius: 2px;
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  .job-card {
+    position: relative;
+    display: flex;
+    gap: 32px;
+    background: rgba(18, 21, 30, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1;
+  }
+
+  .job-card:hover {
+    border-color: rgba(43, 107, 228, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.3), 0 0 0 1px rgba(43,107,228,0.1);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .job-logo-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 12px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 2;
+  }
+
+  .job-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .job-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+  }
+
+  .job-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .job-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .job-role {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--blue);
+    margin: 0;
+  }
+
+  .job-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .meta-badge svg {
+    color: var(--blue);
+  }
+
+  .job-tasks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .job-tasks li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 14px;
+    color: #ced3de;
+    line-height: 1.6;
+  }
+
+  .task-bullet {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    .timeline-line {
+      left: 55px;
+    }
+
+    .job-card {
+      flex-direction: column;
+      gap: 20px;
+      padding: 24px;
+    }
+
+    .job-logo-wrapper {
+      width: 64px;
+      height: 64px;
+      padding: 10px;
+    }
+  }
+</style>

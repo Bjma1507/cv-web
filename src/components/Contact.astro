@@ -1,31 +1,435 @@
-<section id="contacto" class="container contact">
-  <h3 class="section-title">Contacto</h3>
-  <p class="section-sub">¿Tienes un proyecto en mente? Conversemos.</p>
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
-  <form id="form-contacto" action="javascript:void(0)">
-    <div class="grid-2">
-      <input class="input" type="text" name="nombre" placeholder="Nombre" required />
-      <input class="input" type="email" name="email" placeholder="Correo" required />
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="contacto" class="contact-section">
+  <div class="container">
+    <div class="contact-wrapper">
+      
+      <div class="contact-info reveal">
+        <h2 class="contact-title">{t('contact.title')}</h2>
+        <p class="contact-subtitle">{t('contact.subtitle')}</p>
+        
+        <div class="contact-details">
+          <a href="mailto:bryan.mendez1507@gmail.com" class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <div>
+              <span class="item-label">{t('contact.email')}</span>
+              <span class="item-value">bryan.mendez1507@gmail.com</span>
+            </div>
+          </a>
+          
+          <a href="https://wa.me/523349032386" target="_blank" rel="noopener" class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <span class="item-label">{t('contact.phone')}</span>
+              <span class="item-value">+52 33 4903 2386</span>
+            </div>
+          </a>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <span class="item-label">{t('about.loc')}</span>
+              <span class="item-value">Zapopan, Jalisco, México</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-container reveal" style="--delay: 0.15s">
+        <form 
+          id="form-contacto" 
+          class="contact-form" 
+          action="javascript:void(0)"
+          data-sending={t('contact.sending')}
+          data-success={t('contact.success')}
+          data-btn={t('contact.send')}
+        >
+          <div class="form-grid">
+            <div class="input-group">
+              <label for="nombre">{t('contact.name.label')}</label>
+              <input type="text" id="nombre" name="nombre" placeholder={t('contact.name.ph')} required />
+            </div>
+            <div class="input-group">
+              <label for="email">{t('contact.email.label')}</label>
+              <input type="email" id="email" name="email" placeholder={t('contact.email.ph')} required />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="asunto">{t('contact.subject.label')}</label>
+            <input type="text" id="asunto" name="asunto" placeholder={t('contact.subject.ph')} required />
+          </div>
+
+          <div class="input-group">
+            <label for="mensaje">{t('contact.msg.label')}</label>
+            <textarea id="mensaje" name="mensaje" placeholder={t('contact.msg.ph')} required></textarea>
+          </div>
+
+          <button class="submit-btn" type="submit">
+            <span>{t('contact.send')}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </form>
+      </div>
+
     </div>
+  </div>
 
-    <input class="input" type="text" name="asunto" placeholder="Asunto" />
-    <textarea name="mensaje" placeholder="Cuéntame sobre tu proyecto..." required></textarea>
-
-    <button class="submit" type="submit">Enviar mensaje</button>
-  </form>
+  <div id="toast-notification" class="toast">
+    <div class="toast-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <span id="toast-text"></span>
+  </div>
 </section>
 
-<script is:inline>
-// @ts-nocheck
+<script>
+  const form = document.getElementById("form-contacto") as HTMLFormElement;
+  const toast = document.getElementById("toast-notification");
+  const toastText = document.getElementById("toast-text");
+  const submitBtn = form?.querySelector(".submit-btn") as HTMLButtonElement;
+  const btnText = submitBtn?.querySelector("span") as HTMLSpanElement;
 
-const form = document.getElementById("form-contacto");
+  const scriptURL = 'TU_URL_DE_APPS_SCRIPT_AQUI';
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault(); // siempre primero
+  if (form && toast && submitBtn && btnText && toastText) {
+    const txtSending = form.dataset.sending || 'Enviando...';
+    const txtSuccess = form.dataset.success || 'Mensaje enviado correctamente';
+    const txtOriginal = form.dataset.btn || 'Enviar mensaje';
 
-  // Solo mostrar ventana emergente
-  alert("✅ Mensaje enviado correctamente");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      btnText.textContent = txtSending;
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.7';
+      submitBtn.style.cursor = 'wait';
 
-  form.reset(); // opcional: limpia el formulario
-});
+      try {
+        const formData = new FormData(form);
+        
+        await fetch(scriptURL, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'
+        });
+
+        toastText.textContent = txtSuccess;
+        toast.classList.add("show");
+        
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 4000);
+        
+        form.reset();
+        
+      } catch (error) {
+        console.error('Error de red:', error);
+      } finally {
+        btnText.textContent = txtOriginal;
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+      }
+    });
+  }
+
+  const reveals = document.querySelectorAll('#contacto .reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target as HTMLElement;
+        const delay = el.style.getPropertyValue('--delay') || '0s';
+        el.style.transitionDelay = delay;
+        el.classList.add('revealed');
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  reveals.forEach(el => observer.observe(el));
 </script>
+
+<style>
+  .contact-section {
+    padding: 100px 16px;
+    position: relative;
+  }
+
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 64px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .contact-subtitle {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 24px;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+
+  a.contact-item:hover {
+    transform: translateX(8px);
+    text-decoration: none;
+  }
+
+  a.contact-item:hover .contact-icon {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+
+  .contact-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(18, 21, 30, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--blue);
+    transition: all 0.3s ease;
+  }
+
+  .item-label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .item-value {
+    display: block;
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .contact-form-container {
+    background: rgba(18, 21, 30, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 32px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    padding-left: 4px;
+  }
+
+  .input-group input,
+  .input-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(10, 11, 15, 0.5);
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .input-group textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  .input-group input:focus,
+  .input-group textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+    background: rgba(43, 107, 228, 0.05);
+    box-shadow: 0 0 0 4px rgba(43, 107, 228, 0.1);
+  }
+
+  .input-group input::placeholder,
+  .input-group textarea::placeholder {
+    color: #4a5060;
+  }
+
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    border: none;
+    padding: 16px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+    box-shadow: 0 4px 20px rgba(43, 107, 228, 0.3);
+  }
+
+  .submit-btn:hover {
+    background: var(--blue-600);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(43, 107, 228, 0.5);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    padding: 16px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    transform: translateY(100px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+  }
+
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .toast-icon {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(46, 204, 113, 0.15);
+    color: var(--green);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    .contact-wrapper {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    
+    .contact-info {
+      text-align: center;
+      align-items: center;
+    }
+
+    .contact-details {
+      align-items: flex-start;
+      text-align: left;
+      width: fit-content;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-form-container {
+      padding: 24px 16px;
+    }
+
+    .toast {
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      justify-content: center;
+    }
+  }
+</style>

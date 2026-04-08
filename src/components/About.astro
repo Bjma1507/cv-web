@@ -1,35 +1,324 @@
 ---
-const base = import.meta.env.BASE_URL; // en GitHub Pages será '/cv-web/'
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<section id="about" class="container about grid-2">
-  <div class="profile">
-    <img src={`${base}img/profile-placeholder.jpg`} alt="Foto de perfil" />
-  </div>
-  <div class="card">
-    <h3 class="section-title">Sobre mí</h3>
-    <p class="section-sub">Un vistazo rápido</p>
-    <p>
-      Soy Project Manager y Desarrollador Front‑End con enfoque en la organización, la calidad y la comunicación efectiva. 
-      Me apasiona traducir objetivos de negocio en entregables claros y medibles, apoyándome en metodologías ágiles y herramientas de automatización para generar impacto.
-    </p>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px">
-      <div class="card" style="padding:12px">
-        <strong>Educación</strong>
-        <div class="section-sub">Ingeniería en Computación UdeG (2021–en curso)</div>
+<section id="about" class="about-section">
+  <div class="container">
+
+    <div class="about-header">
+      <h2 class="about-title">{t('about.title')}</h2>
+      <p class="about-subtitle">{t('about.subtitle')}</p>
+    </div>
+
+    <div class="about-grid">
+
+      <div class="about-left reveal">
+        <div class="stack-card">
+          <h3 class="stack-title">{t('about.stack')}</h3>
+
+          <div class="stack-group">
+            <span class="stack-category frontend">Frontend</span>
+            <div class="tags-row">
+              <span class="tag tag-frontend">HTML</span>
+              <span class="tag tag-frontend">CSS</span>
+              <span class="tag tag-frontend">JavaScript</span>
+              <span class="tag tag-frontend">TailwindCSS</span>
+            </div>
+          </div>
+
+          <div class="stack-group">
+            <span class="stack-category backend">Backend</span>
+            <div class="tags-row">
+              <span class="tag tag-backend">C / C++</span>
+              <span class="tag tag-backend">Python</span>
+            </div>
+          </div>
+
+          <div class="stack-group">
+            <span class="stack-category frameworks">Frameworks</span>
+            <div class="tags-row">
+              <span class="tag tag-framework">Astro</span>
+              <span class="tag tag-framework">TailwindCSS</span>
+              <span class="tag tag-framework">Vue</span>
+              <span class="tag tag-framework">Smartsheet</span>
+            </div>
+          </div>
+
+          <div class="stack-group">
+            <span class="stack-category tools">{t('about.tools')}</span>
+            <div class="tags-row">
+              <span class="tag tag-tool">Git / GitHub</span>
+              <span class="tag tag-tool">VS Code</span>
+              <span class="tag tag-tool">Metodologías Ágiles</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="card" style="padding:12px">
-        <strong>Idiomas</strong>
-        <div class="section-sub">Español: Nativo <br> Ingles: Basico conversacional</div>
+
+      <div class="about-right reveal reveal-delay">
+        <div class="about-bio-card">
+          <p class="about-bio">{t('about.bio')}</p>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <span class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </span>
+            <div>
+              <strong class="info-label">{t('about.edu')}</strong>
+              <p class="info-value">{t('about.edu.val')}<br/><span class="info-muted">{t('about.edu.sub')}</span></p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <span class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6 6-6"/></svg>
+            </span>
+            <div>
+              <strong class="info-label">{t('about.lang')}</strong>
+              <p class="info-value">{t('about.lang.val')}<br/><span class="info-muted">{t('about.lang.sub')}</span></p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <span class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <strong class="info-label">{t('about.loc')}</strong>
+              <p class="info-value">{t('about.loc.val')}<br/><span class="info-muted">{t('about.loc.sub')}</span></p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <span class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </span>
+            <div>
+              <strong class="info-label">{t('about.avail')}</strong>
+              <p class="info-value">{t('about.avail.val')}<br/><span class="info-muted">{t('about.avail.sub')}</span></p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="card" style="padding:12px">
-        <strong>Direccion</strong>
-        <div class="section-sub">Calle gardenia 3928 <br> Col. la coronilla Zapopan Jal.</div>
-      </div>
-      <div class="card" style="padding:12px">
-        <strong>Lenguajes de programación</strong>
-        <div class="section-sub">Front-end: HTML, CSS, JS. <br> Back-end: C, C++, PYTHON. <br> FW: Astro, TWCSS, Vue.</div>
-      </div>
+
     </div>
   </div>
 </section>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  reveals.forEach(el => revealObserver.observe(el));
+</script>
+
+<style>
+  .about-section {
+    padding: 80px 166px;
+  }
+
+  .about-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .about-title {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    margin: 0 0 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .about-subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal-delay {
+    transition-delay: 0.15s;
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stack-card, .about-bio-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid var(--glass-top);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  .stack-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+
+  .stack-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .stack-category {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    width: fit-content;
+  }
+
+  .stack-category.frontend  { background: color-mix(in oklab, var(--blue) 12%, transparent); color: var(--blue); border: 1px solid color-mix(in oklab, var(--blue) 25%, transparent); }
+  .stack-category.backend   { background: color-mix(in oklab, var(--purple) 12%, transparent); color: var(--purple); border: 1px solid color-mix(in oklab, var(--purple) 25%, transparent); }
+  .stack-category.frameworks{ background: color-mix(in oklab, var(--green) 12%, transparent); color: var(--green); border: 1px solid color-mix(in oklab, var(--green) 25%, transparent); }
+  .stack-category.tools     { background: color-mix(in oklab, var(--text) 10%, transparent);  color: var(--text); border: 1px solid color-mix(in oklab, var(--text) 20%, transparent); }
+
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: default;
+  }
+
+  .tag-frontend  { background: color-mix(in oklab, var(--blue) 8%, transparent); color: color-mix(in oklab, var(--blue) 75%, var(--text)); border: 1px solid color-mix(in oklab, var(--blue) 20%, transparent); }
+  .tag-backend   { background: color-mix(in oklab, var(--purple) 8%, transparent); color: color-mix(in oklab, var(--purple) 75%, var(--text)); border: 1px solid color-mix(in oklab, var(--purple) 20%, transparent); }
+  .tag-framework { background: color-mix(in oklab, var(--green) 8%, transparent); color: color-mix(in oklab, var(--green) 75%, var(--text)); border: 1px solid color-mix(in oklab, var(--green) 20%, transparent); }
+  .tag-tool      { background: color-mix(in oklab, var(--text) 5%, transparent);  color: var(--text); border: 1px solid color-mix(in oklab, var(--text) 15%, transparent);  }
+
+  .about-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .about-bio {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid var(--glass-top);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: color-mix(in oklab, var(--blue) 12%, transparent);
+    color: var(--blue);
+    flex-shrink: 0;
+  }
+
+  .info-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .info-value {
+    font-size: 13px;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .info-muted {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-right {
+      order: -1;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

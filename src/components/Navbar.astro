@@ -1,5 +1,14 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL;
+
+const targetLang = lang === 'es' ? 'en' : 'es';
+const targetUrl = lang === 'es' ? `${base}en/` : base;
 ---
+
 <header class="nav-wrapper" id="nav-wrapper">
   <nav class="nav-pill" id="nav-pill">
     <a href="#inicio" class="brand">
@@ -8,12 +17,23 @@
     </a>
 
     <ul class="nav-links" id="nav-links">
-      <li><a href="#inicio"      class="nav-link" data-section="inicio">Inicio</a></li>
-      <li><a href="#about"       class="nav-link" data-section="about">Sobre mí</a></li>
-      <li><a href="#portafolio"  class="nav-link" data-section="portafolio">Portafolio</a></li>
-      <li><a href="#experiencia" class="nav-link" data-section="experiencia">Experiencia</a></li>
-      <li><a href="#contacto"    class="nav-link" data-section="contacto">Contacto</a></li>
+      <li><a href="#inicio" class="nav-link" data-section="inicio">{t('nav.inicio')}</a></li>
+      <li><a href="#about" class="nav-link" data-section="about">{t('nav.about')}</a></li>
+      <li><a href="#portafolio" class="nav-link" data-section="portafolio">{t('nav.portfolio')}</a></li>
+      <li><a href="#experiencia" class="nav-link" data-section="experiencia">{t('nav.experience')}</a></li>
+      <li><a href="#contacto" class="nav-link" data-section="contacto">{t('nav.contact')}</a></li>
     </ul>
+
+    <div class="nav-actions">
+      <button id="themeToggle" class="icon-btn" aria-label="Cambiar tema">
+        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+
+      <a href={targetUrl} class="lang-switch" aria-label="Cambiar idioma">
+        {targetLang.toUpperCase()}
+      </a>
+    </div>
 
     <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
       <span class="bar"></span>
@@ -24,20 +44,32 @@
 
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul>
-      <li><a href="#inicio"      class="mobile-link" data-section="inicio">Inicio</a></li>
-      <li><a href="#about"       class="mobile-link" data-section="about">Sobre mí</a></li>
-      <li><a href="#portafolio"  class="mobile-link" data-section="portafolio">Portafolio</a></li>
-      <li><a href="#experiencia" class="mobile-link" data-section="experiencia">Experiencia</a></li>
-      <li><a href="#contacto"    class="mobile-link" data-section="contacto">Contacto</a></li>
+      <li><a href="#inicio" class="mobile-link" data-section="inicio">{t('nav.inicio')}</a></li>
+      <li><a href="#about" class="mobile-link" data-section="about">{t('nav.about')}</a></li>
+      <li><a href="#portafolio" class="mobile-link" data-section="portafolio">{t('nav.portfolio')}</a></li>
+      <li><a href="#experiencia" class="mobile-link" data-section="experiencia">{t('nav.experience')}</a></li>
+      <li><a href="#contacto" class="mobile-link" data-section="contacto">{t('nav.contact')}</a></li>
     </ul>
   </div>
 </header>
 
 <script>
-  const wrapper    = document.getElementById('nav-wrapper');
-  const hamburger  = document.getElementById('hamburger');
+  const wrapper = document.getElementById('nav-wrapper');
+  const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobile-menu');
-  const allLinks   = document.querySelectorAll('.nav-link, .mobile-link');
+  const allLinks = document.querySelectorAll('.nav-link, .mobile-link');
+  const themeToggle = document.getElementById('themeToggle');
+
+  const handleToggleClick = () => {
+    const element = document.documentElement;
+    element.classList.toggle("dark");
+    
+    const isLight = element.getAttribute('data-theme') === 'light';
+    element.setAttribute('data-theme', isLight ? 'dark' : 'light');
+    localStorage.setItem("theme", isLight ? 'dark' : 'light');
+  }
+
+  themeToggle?.addEventListener("click", handleToggleClick);
 
   let lastScrollY = window.scrollY;
   let ticking = false;
@@ -47,9 +79,9 @@
       window.requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
         if (currentScrollY > lastScrollY && currentScrollY > 80) {
-          wrapper.classList.add('nav-hidden');
+          wrapper?.classList.add('nav-hidden');
         } else {
-          wrapper.classList.remove('nav-hidden');
+          wrapper?.classList.remove('nav-hidden');
         }
         lastScrollY = currentScrollY;
         ticking = false;
@@ -58,19 +90,19 @@
     }
   });
 
-  hamburger.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.toggle('open');
+  hamburger?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.classList.toggle('open');
     hamburger.classList.toggle('active');
     hamburger.setAttribute('aria-expanded', String(isOpen));
-    mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+    mobileMenu?.setAttribute('aria-hidden', String(!isOpen));
   });
 
   document.querySelectorAll('.mobile-link').forEach(link => {
     link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      hamburger.classList.remove('active');
-      hamburger.setAttribute('aria-expanded', 'false');
-      mobileMenu.setAttribute('aria-hidden', 'true');
+      mobileMenu?.classList.remove('open');
+      hamburger?.classList.remove('active');
+      hamburger?.setAttribute('aria-expanded', 'false');
+      mobileMenu?.setAttribute('aria-hidden', 'true');
     });
   });
 
@@ -80,7 +112,9 @@
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id');
         allLinks.forEach(link => {
-          link.classList.toggle('active', link.dataset.section === id);
+          if (link instanceof HTMLElement) {
+             link.classList.toggle('active', link.dataset.section === id);
+          }
         });
       }
     });
@@ -100,8 +134,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity  0.35s ease;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
   }
 
   .nav-wrapper.nav-hidden {
@@ -122,6 +155,7 @@
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
     width: fit-content;
+    transition: background 0.3s ease, border-color 0.3s ease;
   }
 
   .brand {
@@ -130,7 +164,7 @@
     gap: 8px;
     font-weight: 800;
     font-size: 14px;
-    color: #fff;
+    color: var(--text);
     white-space: nowrap;
     padding-right: 12px;
     border-right: 1px solid var(--border);
@@ -172,16 +206,67 @@
   }
 
   .nav-link:hover {
-    color: #fff;
-    background: rgba(255,255,255,0.07);
+    color: var(--text);
+    background: color-mix(in oklab, var(--text) 7%, transparent);
     text-decoration: none;
     transform: none;
   }
 
   .nav-link.active {
+    color: var(--blue);
+    background: color-mix(in oklab, var(--blue) 15%, transparent);
+    border: 1px solid color-mix(in oklab, var(--blue) 30%, transparent);
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 4px;
+  }
+
+  .icon-btn {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .icon-btn:hover {
+    color: var(--blue);
+    background: color-mix(in oklab, var(--blue) 15%, transparent);
+  }
+
+  :global([data-theme="dark"]) .sun-icon { display: block; }
+  :global([data-theme="dark"]) .moon-icon { display: none; }
+  :global([data-theme="light"]) .sun-icon { display: none; }
+  :global([data-theme="light"]) .moon-icon { display: block; }
+
+  .lang-switch {
+    display: grid;
+    place-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    background: color-mix(in oklab, var(--purple) 20%, transparent);
+    border: 1px solid color-mix(in oklab, var(--purple) 40%, transparent);
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .lang-switch:hover {
+    background: var(--purple);
     color: #fff;
-    background: rgba(43, 107, 228, 0.2);
-    border: 1px solid rgba(43, 107, 228, 0.35);
+    text-decoration: none;
+    transform: scale(1.05);
   }
 
   .hamburger {
@@ -200,7 +285,7 @@
   }
 
   .hamburger:hover {
-    background: rgba(255,255,255,0.07);
+    background: color-mix(in oklab, var(--text) 7%, transparent);
   }
 
   .bar {
@@ -238,8 +323,7 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.5);
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity    0.3s ease;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     opacity: 0;
   }
 
@@ -264,15 +348,15 @@
   }
 
   .mobile-link:hover {
-    color: #fff;
-    background: rgba(255,255,255,0.06);
+    color: var(--text);
+    background: color-mix(in oklab, var(--text) 6%, transparent);
     text-decoration: none;
     transform: none;
   }
 
   .mobile-link.active {
-    color: #fff;
-    background: rgba(43, 107, 228, 0.2);
+    color: var(--blue);
+    background: color-mix(in oklab, var(--blue) 15%, transparent);
   }
 
   @media (max-width: 768px) {

@@ -1,66 +1,420 @@
 ---
-const base = import.meta.env.BASE_URL; // en GitHub Pages será '/cv-web/'
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL;
+
+const projectsEs = [
+  {
+    slug: 'neowebs', // <- ¡Esta es la llave mágica que conecta con el archivo .md!
+    img: `${base}img/service1.png`,
+    alt: 'Neowebs',
+    title: 'Neowebs',
+    desc: 'Sitio web moderno diseñado para potenciar la presencia digital de negocios.',
+    tags: ['Astro', 'TailwindCSS', 'JavaScript'],
+    features: ['Gestor de contenido dinámico (CMS)', 'Diseño responsive optimizado', 'Integración con formularios'],
+    url: 'https://neo-webs-page.vercel.app/',
+  },
+  {
+    slug: 'ebodies-clinic', // Vacío hasta que crees su archivo ebodies-clinic.md
+    img: `${base}img/service3.jpg`,
+    alt: 'Ebodies Clinic',
+    title: 'Ebodies Clinic',
+    desc: 'Sitio web moderno y funcional para una clínica de nutrición.',
+    tags: ['Vue', 'Stripe', 'CSS'],
+    features: ['Sistema de citas en línea', 'Pagos mediante Stripe', 'Notificaciones por correo'],
+    url: 'https://ebodiesclinic.com/',
+  },
+  {
+    slug: 'ebodies-labs', // Vacío hasta que crees su archivo ebodies-labs.md
+    img: `${base}img/service2.png`,
+    alt: 'Ebodies Labs',
+    title: 'Ebodies Labs',
+    desc: 'E-commerce completo para productos de nutrición y suplementos.',
+    tags: ['Vue', 'Stripe', 'TailwindCSS'],
+    features: ['Catálogo de productos', 'Pagos mediante Stripe', 'Notificaciones por correo'],
+    url: 'https://ebodieslabs.com/',
+  },
+  {
+    slug: 'omnilife', // Vacío hasta que crees su archivo omnilife.md
+    img: `${base}img/service4.png`,
+    alt: 'Omnilife Ruleta',
+    title: 'Omnilife — Ruleta',
+    desc: 'Aplicación web interactiva para sorteos y dinámicas de equipo.',
+    tags: ['JavaScript', 'HTML', 'CSS'],
+    features: ['Personalización de premios y participantes', 'Animación de ruleta con efectos visuales', 'Mensaje emergente con ganador'],
+    url: 'https://bmendez-admin.github.io/ruleta/',
+  },
+];
+
+const projectsEn = [
+  {
+    slug: 'neowebs',
+    img: `${base}img/service1.png`,
+    alt: 'Neowebs',
+    title: 'Neowebs',
+    desc: 'Modern website designed to boost the digital presence of businesses.',
+    tags: ['Astro', 'TailwindCSS', 'JavaScript'],
+    features: ['Dynamic Content Manager (CMS)', 'Optimized responsive design', 'Form integration'],
+    url: 'https://neo-webs-page.vercel.app/',
+  },
+  {
+    slug: 'ebodies-clinic',
+    img: `${base}img/service3.jpg`,
+    alt: 'Ebodies Clinic',
+    title: 'Ebodies Clinic',
+    desc: 'Modern and functional website for a nutrition clinic.',
+    tags: ['Vue', 'Stripe', 'CSS'],
+    features: ['Online appointment system', 'Payments via Stripe', 'Email notifications'],
+    url: 'https://ebodiesclinic.com/',
+  },
+  {
+    slug: 'ebodies-labs',
+    img: `${base}img/service2.png`,
+    alt: 'Ebodies Labs',
+    title: 'Ebodies Labs',
+    desc: 'Complete E-commerce for nutrition products and supplements.',
+    tags: ['Vue', 'Stripe', 'TailwindCSS'],
+    features: ['Product catalog', 'Payments via Stripe', 'Email notifications'],
+    url: 'https://ebodieslabs.com/',
+  },
+  {
+    slug: 'omnilife',
+    img: `${base}img/service4.png`,
+    alt: 'Omnilife Roulette',
+    title: 'Omnilife — Roulette',
+    desc: 'Interactive web application for raffles and team dynamics.',
+    tags: ['JavaScript', 'HTML', 'CSS'],
+    features: ['Prize and participant customization', 'Roulette animation with visual effects', 'Pop-up message with winner'],
+    url: 'https://bmendez-admin.github.io/ruleta/',
+  },
+];
+
+const currentProjects = lang === 'en' ? projectsEn : projectsEs;
 ---
 
-<section id="portafolio" class="container" style="padding: 22px 0 46px">
-  <h3 class="section-title">Portafolio</h3>
-  <p class="section-sub">Algunos proyectos y prácticas recientes</p>
-  <div class="grid-2">
-    <div class="card">
-      <img src={`${base}img/service1.png`} alt="neowebs" class="img-prtfolio"/>
-      <strong class="title-prtfolio">Proyecto neowebs</strong>
-      <p>Un sitio web moderno diseñado para potenciar la presencia digital.</p>
-      <p>Funciones: </p>
-      <ul>
-        <li>Gestor de contenido dinámico (CMS)</li>
-        <li>Diseño responsive optimizado</li>
-        <li>Integración con formularios</li>
-      </ul>
-      <div class="cont-btn">
-        <a href="https://neo-webs-page.vercel.app/" class="btn-prtfolio">Visitar</a>
-      </div>
+<section id="portafolio" class="portfolio-section">
+  <div class="container">
+
+    <div class="portfolio-header reveal">
+      <h2 class="portfolio-title">{t('portfolio.title')}</h2>
+      <p class="portfolio-subtitle">{t('portfolio.subtitle')}</p>
     </div>
-    <div class="card">
-      <img src={`${base}img/service3.jpg`} alt="EBC" class="img-prtfolio" style="width:100%; border-radius:12px; margin-bottom:12px"/>
-      <strong class="title-prtfolio">Proyecto Ebodies Clinic</strong>
-      <p>Un sitio web moderno y funcional para una clínica de nutrición.</p>
-      <p>Funciones: </p>
-      <ul>
-        <li>Sistema de citas en línea</li>
-        <li>Pagos mediante Stripe</li>
-        <li>Notificaciones por correo electrónico</li>
-      </ul>
-      <div class="cont-btn">
-        <a href="https://ebodiesclinic.com/" class="btn-prtfolio">Visitar</a>
-      </div>
+
+    <div class="portfolio-grid">
+      {currentProjects.map((project, i) => (
+        <article class="project-card reveal" style={`--delay: ${i * 0.1}s`}>
+          <div class="project-img-wrapper">
+            <img
+              src={project.img}
+              alt={project.alt}
+              class="project-img"
+              loading="lazy"
+            />
+            {project.slug && (
+              <div class="project-overlay">
+                <a
+                  href={`${base}portfolio/${project.slug}/`}
+                  class="overlay-btn"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  {t('portfolio.readMore')}
+                </a>
+              </div>
+            )}
+          </div>
+
+          <div class="project-body">
+            <div class="project-tags">
+              {project.tags.map(tag => (
+                <span class="project-tag">{tag}</span>
+              ))}
+            </div>
+
+            <h3 class="project-title">{project.title}</h3>
+            <p class="project-desc">{project.desc}</p>
+
+            <ul class="project-features">
+              {project.features.map(f => (
+                <li>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <div class="project-footer">
+              {project.slug ? (
+                <a href={`${base}portfolio/${project.slug}/`} class="case-study-btn">
+                  {t('portfolio.readMore')}
+                </a>
+              ) : (
+                <span class="case-study-pending">Próximamente...</span>
+              )}
+              
+              <a href={project.url} target="_blank" rel="noopener" class="visit-btn" title={t('portfolio.visit')}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
     </div>
-    <div class="card">
-      <img src={`${base}img/service2.png`} alt="EBL" class="img-prtfolio" style="width:100%; border-radius:12px; margin-bottom:12px"/>
-      <strong class="title-prtfolio">Proyecto Ebodies Labs</strong>
-      <p>Un sitio E-commerce para productos de nutrición.</p>
-      <p>Funciones: </p>
-      <ul>
-        <li>Catálogo de productos</li>
-        <li>Pagos mediante Stripe</li>
-        <li>Notificaciones por correo electrónico</li>
-      </ul>
-      <div class="cont-btn">
-        <a href="https://ebodieslabs.com/" class="btn-prtfolio">Visitar</a>
-      </div>
-    </div>
-    <div class="card">
-      <img src={`${base}img/service4.png`} alt="OMNILIFE" class="img-prtfolio" style="width:100%; border-radius:12px; margin-bottom:12px"/>
-      <strong class="title-prtfolio">Proyecto OMNILIFE</strong>
-      <p>Aplicación web interactiva para realizar sorteos y dinámicas.</p>
-      <p>Funciones: </p>
-      <ul>
-        <li>Personalización de premios y participantes</li>
-        <li>Animación de ruleta con efectos visuales</li>
-        <li>Mensaje emergente con el resultado ganador</li>
-      </ul>
-      <div class="cont-btn">
-        <a href="https://bmendez-admin.github.io/ruleta/" class="btn-prtfolio">Visitar</a>
-      </div>
-    </div>
+
   </div>
 </section>
+
+<script>
+  const reveals = document.querySelectorAll('#portafolio .reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target as HTMLElement;
+        const delay = el.style.getPropertyValue('--delay') || '0s';
+        el.style.transitionDelay = delay;
+        el.classList.add('revealed');
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+<style>
+  .portfolio-section {
+    padding: 80px 16px;
+  }
+
+  .portfolio-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .portfolio-title {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    margin: 0 0 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .portfolio-subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .project-card {
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card:hover {
+    border-color: var(--blue) !important;
+    transform: translateY(-6px) !important;
+  }
+
+  .project-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.5s ease;
+    display: block;
+  }
+
+  .project-card:hover .project-img {
+    transform: scale(1.07);
+  }
+
+  .project-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 11, 15, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-card:hover .project-overlay {
+    opacity: 1;
+  }
+
+  .overlay-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 12px;
+    background: var(--blue);
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transform: translateY(8px);
+    transition: transform 0.3s ease, background 0.2s ease;
+    box-shadow: 0 4px 20px rgba(43,107,228,0.4);
+  }
+
+  .project-card:hover .overlay-btn {
+    transform: translateY(0);
+  }
+
+  .overlay-btn:hover {
+    background: var(--blue-600);
+    text-decoration: none;
+    transform: translateY(-2px) !important;
+  }
+
+  .project-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .project-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--blue) 12%, transparent);
+    color: var(--blue);
+    border: 1px solid color-mix(in oklab, var(--blue) 25%, transparent);
+    letter-spacing: 0.3px;
+  }
+
+  .project-title {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text);
+  }
+
+  .project-desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .project-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .project-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .project-features li svg {
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .project-footer {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .case-study-btn {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: color-mix(in oklab, var(--blue) 10%, transparent);
+    transition: all 0.2s ease;
+  }
+
+  .case-study-btn:hover {
+    background: var(--blue);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .case-study-pending {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .visit-btn {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .visit-btn:hover {
+    color: var(--text);
+    background: color-mix(in oklab, var(--text) 5%, transparent);
+    border-color: var(--glass-border);
+  }
+
+  @media (max-width: 768px) {
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-img-wrapper {
+      height: 180px;
+    }
+  }
+</style>
