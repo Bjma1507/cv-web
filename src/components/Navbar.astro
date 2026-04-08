@@ -377,4 +377,38 @@ const targetUrl = lang === 'es' ? `${base}en/` : base;
       opacity: 1;
     }
   }
+
+  @media (max-width: 480px) {
+    .nav-pill {
+      padding: 8px 12px;
+      gap: 6px;
+      max-width: calc(100vw - 24px);
+    }
+    .brand {
+      font-size: 13px;
+      padding-right: 8px;
+    }
+    .nav-actions {
+      gap: 4px;
+    }
+    .icon-btn {
+      width: 24px;
+      height: 24px;
+    }
+    .icon-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+    .lang-switch {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+    .hamburger {
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+    }
+  }
+
 </style>
+
